@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-color:#f4f4f4;
+        }
+        .container{
+            width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .greeting{
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .active_code{
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .active-link{
+            text-align: center;
+        }
+        .active-link a{
+            text-decoration: none;
+            color: #007bff;
+            cursor: pointer;
+        }
+        /* .active-link a:hover{
+            text-decoration: underline;
+        } */
+        .active-link a:active{
+            color: #0056b3;
+        }
+        .active-link a:visited{
+            color: #0056b3;
+        }
+        .active-link a:link{
+            color: #0056b3;
+        }
+        .active-link a:focus{
+            color: #0056b3;
+        }
+        .active-link a:target{
+            color: #0056b3;
+        }
+        .active-link a:first-child{
+            color: #0056b3;
+        }
+        .active-link a:last-child{
+            color: #0056b3;
+        }
+        .active-link a:only-child{
+            color: #0056b3;
+        }
+        .active-link a:nth-child(2){
+            color: #0056b3;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <h1>Activation de compte</h1>
+
+    <p class="greeting" th:text="'Bonjour M./Mm ' + ${username} + ',' "> </p>
+    <p>Merci pour votre enrégistrement</p>
+    <div class="active_code" ><span th:text="${confimation_code}"></span></div>
+    <div class="active-link" >
+        <a th:href="${activationUrl}" target="_blank"> Activer votre compte</a>
+    </div>
+</div>
+</body>
+</html>

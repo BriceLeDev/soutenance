@@ -1,0 +1,26 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: panneauDb
+    restart: always                       # always restart
+    environment:
+      MYSQL_DATABASE: 'panneau_db'              # name of database
+      MYSQL_ROOT_PASSWORD: 'root'         # password for sample owner
+      MYSQL_USER: 'brice'                # sample is the name of owner
+      MYSQL_PASSWORD: 'brice'     # password for root owner
+    ports:
+      - '3306:3306'                       # host port 3306 is mapper to docker port 3306
+    expose:
+      - '3306'
+    volumes:
+      - mysql-db:/var/lib/mysqldb
+  maildev:
+    container_name: mail_dev
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+volumes:
+  mysql-db :
+    
