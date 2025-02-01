@@ -51,6 +51,10 @@ public class AuthenticationController {
         authenticationService.refreshingToken(request,response);
     }
 
+    @GetMapping("/resender")
+    public void resendToken(@RequestParam("email") String email) throws MessagingException {
+         this.authenticationService.resendToken(email);
+    }
 
 }
 

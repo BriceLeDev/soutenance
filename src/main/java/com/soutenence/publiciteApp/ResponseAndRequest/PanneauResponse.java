@@ -1,7 +1,5 @@
 package com.soutenence.publiciteApp.ResponseAndRequest;
 
-import com.soutenence.publiciteApp.entity.Boulevard;
-import com.soutenence.publiciteApp.entity.TypePanneau;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PanneauResponse {
-    private Integer id;
+    private Long id;
     private String localisation;
     private Integer taille;
     private Long prixMensuel;
     private Long printPrice;
     private int nbrFace;
-    private Boulevard boulevard;
-    private TypePanneau typePanneau;
+    private String boulevardName;
+    private String typePanneauLibele;
     @Builder.Default
     boolean occuped=false;
 

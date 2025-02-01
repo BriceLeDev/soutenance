@@ -1,6 +1,5 @@
 package com.soutenence.publiciteApp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.soutenence.publiciteApp.enums.NiveauPayement;
 import com.soutenence.publiciteApp.payement.entite.Transaction;
@@ -12,13 +11,14 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
-@Entity
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Builder
+@Entity
 public class Abonnement extends BaseEntity {
     
     private double prix;
@@ -27,14 +27,14 @@ public class Abonnement extends BaseEntity {
     private int duree;
     private LocalDate dateFin;
     private LocalDate dateDebut;
+    @Column(name = "date_abn")
     private LocalDate dateAbn;
     private boolean actif;
     private String description;
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
     private NiveauPayement niveauAbn;
-    @Column(nullable = true)
-    private String status;
+    private boolean valid;
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonManagedReference

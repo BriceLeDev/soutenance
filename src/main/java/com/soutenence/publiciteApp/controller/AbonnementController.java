@@ -23,21 +23,21 @@ public class AbonnementController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> doAbonnement(@Valid @RequestBody AbonnementRequest abonnementRequest, Authentication authentication){
+    public ResponseEntity<Long> doAbonnement(@Valid @RequestBody AbonnementRequest abonnementRequest, Authentication authentication){
 
         return ResponseEntity.ok( abonnementService.saveAbonnement(abonnementRequest,authentication));
     }
 
 
     @GetMapping(path = "{abonnement-id}")
-    public ResponseEntity<AbonnementResponse>getAbonnementById(@PathVariable("abonnement-id") Integer abonnementId){
+    public ResponseEntity<AbonnementResponse>getAbonnementById(@PathVariable("abonnement-id") Long abonnementId){
         return ResponseEntity.ok(abonnementService.getAbonnementById(abonnementId));
 
     }
 
     @GetMapping(path = "/by-user/{user-id}")
     public PageResponse<AbonnementResponse>getAbonnementByOwner(
-             @PathVariable("user-id") Integer userId,
+             @PathVariable("user-id") Long userId,
              @RequestParam(name = "page", defaultValue = "0", required = false) int page,
              @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){
@@ -68,5 +68,14 @@ public class AbonnementController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){
         return this.abonnementService.getAllAbonnementExpiredById(id,page,size);
+    }
+
+    @PutMapping("/validate")
+    public void validate(@RequestParam("abonnementId") Long abonnementId){
+        this.abonnementService.validateAbonnement(abonnementId);
+    }
+    @PutMapping("/invalidate")
+    public void invalidate(@RequestParam("abonnementId") Long abonnementId){
+        this.abonnementService.invalidateAbonnement(abonnementId);
     }
 }

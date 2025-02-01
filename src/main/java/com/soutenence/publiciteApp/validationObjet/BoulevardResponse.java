@@ -5,14 +5,14 @@ import lombok.Builder;
 @Builder
 public class BoulevardResponse {
 
-    private Integer id;
+    private Long id;
     private String name;
     private Integer NombreDePanneau;
 
     public BoulevardResponse() {
     }
 
-    public BoulevardResponse(Integer id, String name, Integer nombreDePanneau) {
+    public BoulevardResponse(Long id, String name, Integer nombreDePanneau) {
         this.id = id;
         this.name = name;
         this.NombreDePanneau = nombreDePanneau;
@@ -26,11 +26,11 @@ public class BoulevardResponse {
         NombreDePanneau = nombreDePanneau;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

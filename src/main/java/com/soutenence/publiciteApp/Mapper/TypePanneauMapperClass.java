@@ -19,7 +19,6 @@ public class TypePanneauMapperClass {
         return TypePanResponse.builder()
                 .id(typePanneau.getId())
                 .libelet(typePanneau.getLibelet())
-                .panneau(typePanneau.getPanneaux())
                 .build();
     }
 }

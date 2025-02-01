@@ -1,4 +1,4 @@
-
+#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
 spring:
   datasource:
     username: root
@@ -12,6 +12,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        #show_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
   mail:
     host: localhost

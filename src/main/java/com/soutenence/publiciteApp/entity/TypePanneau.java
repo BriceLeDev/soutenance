@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -27,7 +26,7 @@ public class TypePanneau extends BaseEntity{
     public TypePanneau() {
     }
 
-    public TypePanneau(int id, LocalDate createdAt, LocalDate updateAt, Integer createdBy, Integer updateBy) {
+    public TypePanneau(Long id, LocalDate createdAt, LocalDate updateAt, Integer createdBy, Integer updateBy) {
         super(id, createdAt, updateAt, createdBy, updateBy);
     }
 
@@ -58,7 +57,7 @@ public class TypePanneau extends BaseEntity{
         this.panneaux = panneaux;
     }
 
-    public TypePanneau(int id, LocalDate createdAt, LocalDate updateAt, Integer createdBy, Integer updateBy, String libelet, List<Panneau> panneaux) {
+    public TypePanneau(Long id, LocalDate createdAt, LocalDate updateAt, Integer createdBy, Integer updateBy, String libelet, List<Panneau> panneaux) {
         super(id, createdAt, updateAt, createdBy, updateBy);
         this.libelet = libelet;
         this.panneaux = panneaux;

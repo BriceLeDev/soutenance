@@ -28,10 +28,10 @@ public class PanneauMapperClass {
                 .taille(panneau.getTaille())
                 .prixMensuel(panneau.getPrixMensuel())
                 .printPrice(panneau.getPrintPrice())
-                .boulevard(panneau.getBoulevard())
-                .typePanneau(panneau.getTypePanneau())
                 .occuped(panneau.isOccuped())
                 .nbrFace(panneau.getNbreFace())
+                .boulevardName(panneau.getBoulevard().getName())
+                .typePanneauLibele(panneau.getTypePanneau().getLibelet())
                 .build();
     }
 }

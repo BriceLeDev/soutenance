@@ -3,7 +3,6 @@ package com.soutenence.publiciteApp.payement.request;
 
 import com.soutenence.publiciteApp.payement.enums.Currency;
 import com.soutenence.publiciteApp.payement.enums.PaymentMethod;
-import java.util.Date;
 
 public record TransactionRequest(
         Integer amount, // Le montant de la transaction (doit être un multiple de 5)
@@ -11,6 +10,6 @@ public record TransactionRequest(
         String description,
         String dateTrans, // Vous pouvez également utiliser LocalDate ou LocalDateTime
         PaymentMethod chanel,
-        Integer abonnementId // ID de l'abonnement, si vous avez une référence à Abonnement
+        Long abonnementId // ID de l'abonnement, si vous avez une référence à Abonnement
 ) {
 }

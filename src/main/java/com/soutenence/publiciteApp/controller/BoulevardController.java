@@ -1,7 +1,6 @@
 package com.soutenence.publiciteApp.controller;
 
 import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
-import com.soutenence.publiciteApp.entity.Boulevard;
 import com.soutenence.publiciteApp.service.BoulevardService;
 import com.soutenence.publiciteApp.validationObjet.BoulevarRequest;
 import com.soutenence.publiciteApp.validationObjet.BoulevardResponse;
@@ -10,8 +9,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("boulevard")
@@ -25,7 +22,7 @@ public class BoulevardController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> saveBoulevard
+    public ResponseEntity<Long> saveBoulevard
             (@Valid @RequestBody
              BoulevarRequest request,
              Authentication connectedUser
@@ -54,5 +51,10 @@ public class BoulevardController {
     )
     {
         return ResponseEntity.ok(boulevardService.findAll(page,size));
+    }
+
+    @GetMapping("/boulevard-by-panneau")
+    public  BoulevardResponse getBoulByPanneau(@RequestParam("panneauId") Long panneauId){
+        return this.boulevardService.getBoulByPanneau(panneauId);
     }
 }

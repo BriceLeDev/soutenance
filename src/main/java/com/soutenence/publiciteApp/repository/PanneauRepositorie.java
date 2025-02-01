@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface PanneauRepositorie extends JpaRepository<Panneau,Integer>{
+public interface PanneauRepositorie extends JpaRepository<Panneau,Long>{
 
 
     Page<Panneau> findByOccupedFalse(Pageable pageable);
@@ -17,8 +17,8 @@ public interface PanneauRepositorie extends JpaRepository<Panneau,Integer>{
     Page<Panneau> findByBoulevard(Boulevard boulevard1, Pageable pageable);
 
     @Query(value = "SELECT * FROM panneau p WHERE boulevard_id=:boulevard1 AND occuped=false",nativeQuery = true)
-    Page<Panneau> findPanneauLibreByBoulevard(int boulevard1, Pageable pageable);
+    Page<Panneau> findPanneauLibreByBoulevard(Long boulevard1, Pageable pageable);
 
     @Query(value = "SELECT * FROM panneau  WHERE boulevard_id=:boulevard1 AND occuped=true",nativeQuery = true)
-    Page<Panneau> findPanneauOccupeByBoulevard(int boulevard1, Pageable pageable);
+    Page<Panneau> findPanneauOccupeByBoulevard(Long boulevard1, Pageable pageable);
 }

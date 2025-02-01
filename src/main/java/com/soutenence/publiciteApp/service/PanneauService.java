@@ -36,7 +36,7 @@ public class PanneauService {
         this.typePanneauRepository = typePanneauRepository;
     }
 
-    public Integer savePanneau(PanneauRquest panneauRquest) throws IllegalAccessException {
+    public Long savePanneau(PanneauRquest panneauRquest) throws IllegalAccessException {
 
         Boulevard boulevard = boulevardRepositorie.findById(panneauRquest.boulevard_id())
                 .orElseThrow(()-> new EntityNotFoundException("Ce boulevard n existe pas"));
@@ -52,7 +52,7 @@ public class PanneauService {
     }
 
 
-    public PanneauResponse findById(int panneauId) {
+    public PanneauResponse findById(Long panneauId) {
 
         return panneauRepositorie.findById(panneauId)
                 .map(panneauMapperClass::ToPanneauResponse)
@@ -111,7 +111,7 @@ public class PanneauService {
         );
     }
 
-    public PanneauResponse updatePanneauById(int panneauId,PanneauRquest panneauRquest) {
+    public PanneauResponse updatePanneauById(Long panneauId, PanneauRquest panneauRquest) {
         Boulevard boulevard=this.boulevardRepositorie
                 .findById(panneauRquest.boulevard_id()).orElseThrow(()->new EntityNotFoundException("Ce boulevard n existe pas!"));
         Panneau panneau=this.panneauRepositorie
@@ -197,7 +197,7 @@ public class PanneauService {
         );
     }
 
-    public void deletePanneau(int panneauId) {
+    public void deletePanneau(Long panneauId) {
         this.panneauRepositorie.delete(this.panneauRepositorie
                 .findById(panneauId).orElseThrow(()->new EntityNotFoundException("Panneau non trouvé!")));
     }

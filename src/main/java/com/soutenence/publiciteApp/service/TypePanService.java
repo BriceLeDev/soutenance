@@ -24,7 +24,7 @@ public class TypePanService {
         this.typePanneauMapperClass = typePanneauMapperClass;
     }
 
-    public Integer addType(TypePanRequest typePanRequest) throws IllegalAccessException {
+    public Long addType(TypePanRequest typePanRequest) throws IllegalAccessException {
         TypePanneau typePanneau1 = this.typePanneauRepository.findByLibelet(typePanRequest.libellet());
 
         if (typePanneau1 != null){

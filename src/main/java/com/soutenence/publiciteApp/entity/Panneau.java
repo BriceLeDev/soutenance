@@ -1,6 +1,7 @@
 package com.soutenence.publiciteApp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class Panneau extends BaseEntity {
     private int NbreFace;
     private boolean occuped ;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "boulevard_id")
     private Boulevard boulevard;
@@ -42,6 +43,14 @@ public class Panneau extends BaseEntity {
     @JoinColumn(name = "type_id")
     private TypePanneau typePanneau;
 
+
+    public Long getPrintPrice() {
+        if(this.typePanneau.getLibelet().equalsIgnoreCase("Numérique-vidéo") || this.typePanneau.getLibelet().equalsIgnoreCase("Numérique-image")){
+            printPrice = 0L;
+            return printPrice;
+        }
+        return printPrice;
+    }
    /* public Panneau(BaseEntityBuilder<?, ?> b) {
         super(b);
     }
@@ -88,9 +97,7 @@ public class Panneau extends BaseEntity {
         this.typePanneau = typePanneau;
     }
 
-    public Long getPrintPrice() {
-        return printPrice;
-    }
+
 
     public void setPrintPrice(Long printPrice) {
         this.printPrice = printPrice;
@@ -133,9 +140,10 @@ public class Panneau extends BaseEntity {
     }
 
     public void setPrixMensuel(long prixMensuel) {
+
         this.prixMensuel = prixMensuel;
     }
-
+/*
     public boolean isOccuped() {
         return occuped;
     }

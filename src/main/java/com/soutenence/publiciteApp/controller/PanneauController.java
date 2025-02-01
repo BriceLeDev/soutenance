@@ -3,7 +3,6 @@ package com.soutenence.publiciteApp.controller;
 import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
 import com.soutenence.publiciteApp.ResponseAndRequest.PanneauResponse;
 import com.soutenence.publiciteApp.ResponseAndRequest.PanneauRquest;
-import com.soutenence.publiciteApp.entity.Boulevard;
 import com.soutenence.publiciteApp.service.PanneauService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +20,7 @@ public class PanneauController {
         this.panneauService = panneauService;
     }
     @PostMapping
-    public ResponseEntity<Integer> savePanneau(@Valid @RequestBody PanneauRquest panneauRquest ) throws IllegalAccessException {
+    public ResponseEntity<Long> savePanneau(@Valid @RequestBody PanneauRquest panneauRquest ) throws IllegalAccessException {
 
         return  ResponseEntity.ok(panneauService.savePanneau(panneauRquest));
     }
@@ -29,13 +28,13 @@ public class PanneauController {
 
 
     @GetMapping(path ="{panneau-id}" )
-    public ResponseEntity<PanneauResponse> panneauFindById(@PathVariable("{panneau-id}") int panneauId){
+    public ResponseEntity<PanneauResponse> panneauFindById(@PathVariable("{panneau-id}") Long panneauId){
         return ResponseEntity.ok(panneauService.findById(panneauId));
     }
 
     @PutMapping(path ="/update/{panneau-id}" )
     public ResponseEntity<PanneauResponse> updatePanneauById(
-            @PathVariable("panneau-id") int panneauId,
+            @PathVariable("panneau-id") Long panneauId,
             @RequestBody @Valid PanneauRquest panneauRquest
             )
     {
@@ -43,7 +42,7 @@ public class PanneauController {
     }
 
     @DeleteMapping(path = "/{panneau-id}")
-    public void deletePannau(@PathVariable(name = "panneau-id") int panneauId){
+    public void deletePannau(@PathVariable(name = "panneau-id") Long panneauId){
         this.panneauService.deletePanneau(panneauId);
     }
 

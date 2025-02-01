@@ -1,10 +1,13 @@
 package com.soutenence.publiciteApp.service;
 
 import com.soutenence.publiciteApp.Mapper.BoulevardMapperClass;
+import com.soutenence.publiciteApp.Mapper.PanneauMapperClass;
 import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
 import com.soutenence.publiciteApp.entity.Boulevard;
+import com.soutenence.publiciteApp.entity.Panneau;
 import com.soutenence.publiciteApp.entity.User;
 import com.soutenence.publiciteApp.repository.BoulevardRepositorie;
+import com.soutenence.publiciteApp.repository.PanneauRepositorie;
 import com.soutenence.publiciteApp.validationObjet.BoulevarRequest;
 import com.soutenence.publiciteApp.validationObjet.BoulevardResponse;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,20 +19,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BoulevardService {
 
     private final BoulevardMapperClass boulevardMapperClass;
     private final BoulevardRepositorie boulevardRepositorie;
-
-    public BoulevardService(BoulevardMapperClass boulevardMapperClass, BoulevardRepositorie boulevardRepositorie) {
+    private final PanneauRepositorie panneauRepositorie;
+    private final PanneauMapperClass panneauMapperClass;
+    public BoulevardService(BoulevardMapperClass boulevardMapperClass, BoulevardRepositorie boulevardRepositorie, PanneauRepositorie panneauRepositorie, PanneauMapperClass panneauMapperClass) {
         this.boulevardMapperClass = boulevardMapperClass;
         this.boulevardRepositorie = boulevardRepositorie;
+        this.panneauRepositorie = panneauRepositorie;
+        this.panneauMapperClass = panneauMapperClass;
     }
 
-    public  Integer save(BoulevarRequest request, Authentication connectedUser) {
+    public Long save(BoulevarRequest request, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         Boulevard Existboulevard = boulevardRepositorie.findByName(request.name()) ;
 if (Existboulevard!=null){
@@ -81,5 +86,12 @@ if (Existboulevard!=null){
 
         this.boulevardRepositorie.save(boulevard);
         return boulevardMapperClass.ToBoulevardResponse(boulevard);
+    }
+
+    public BoulevardResponse getBoulByPanneau(Long panneauId){
+        Panneau panneau  = this.panneauRepositorie.findById(panneauId)
+                .orElseThrow(()-> new EntityNotFoundException("Ce panneau n'existe pas"));
+        Boulevard boulevard = this.boulevardRepositorie.findById(panneau.getBoulevard().getId());
+        return this.boulevardMapperClass.ToBoulevardResponse(boulevard);
     }
 }

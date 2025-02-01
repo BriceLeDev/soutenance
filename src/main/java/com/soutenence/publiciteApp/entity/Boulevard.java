@@ -3,14 +3,8 @@ package com.soutenence.publiciteApp.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -41,7 +35,7 @@ public class Boulevard extends BaseEntity {
         this.panneaux = panneaux;
     }
 
-    public Boulevard(int id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy, String name, int nombreDePanneau, List<Panneau> panneaux) {
+    public Boulevard(Long id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy, String name, int nombreDePanneau, List<Panneau> panneaux) {
         super(id, createdAt, updateAt, createdBy, updateBy);
         this.name = name;
         NombreDePanneau = nombreDePanneau;

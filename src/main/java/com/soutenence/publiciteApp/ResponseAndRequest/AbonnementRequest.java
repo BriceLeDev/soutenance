@@ -27,7 +27,7 @@ public record AbonnementRequest(
         @NotNull(message = "la description doit être définir")
         String description,
 
-        List<Integer> Panneau
+        List<Long> Panneau
 
 ) {
 }

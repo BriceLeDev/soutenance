@@ -24,7 +24,7 @@ public class Image extends BaseEntity {
     public Image() {
     }
 
-    public Image(int id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy) {
+    public Image(Long id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy) {
         super(id, createdAt, updateAt, createdBy, updateBy);
     }
 
@@ -39,7 +39,7 @@ public class Image extends BaseEntity {
         this.abonnement = abonnement;
     }
 
-    public Image(int id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy, String nomImage, Abonnement abonnement) {
+    public Image(Long id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy, String nomImage, Abonnement abonnement) {
         super(id, createdAt, updateAt, createdBy, updateBy);
         this.nomImage = nomImage;
         this.abonnement = abonnement;

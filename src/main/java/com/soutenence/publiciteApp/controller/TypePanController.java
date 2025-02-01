@@ -24,7 +24,7 @@ public class TypePanController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> addType(@Valid @RequestBody TypePanRequest typePanRequest) throws IllegalAccessException {
+    public ResponseEntity<Long> addType(@Valid @RequestBody TypePanRequest typePanRequest) throws IllegalAccessException {
         return ResponseEntity.ok(this.typePanService.addType(typePanRequest));
     }
 

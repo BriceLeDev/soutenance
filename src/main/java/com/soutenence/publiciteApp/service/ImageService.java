@@ -41,7 +41,7 @@ public class ImageService {
         this.imageMapperClass = imageMapperClass;
     }
 
-    public void saveFile(@NotNull MultipartFile file, @NotNull Integer abonnementId) {
+    public void saveFile(@NotNull MultipartFile file, Long abonnementId) {
 
         Abonnement abonnement = abonnementRepositorie.findById(abonnementId)
                 .orElseThrow(()-> new EntityNotFoundException("Cet Abonnement n existe pas"));
@@ -53,7 +53,7 @@ public class ImageService {
     }
 
 
-    public String uploadPicture(MultipartFile file, @NotNull Integer abonnementId) {
+    public String uploadPicture(MultipartFile file, Long abonnementId) {
 
         final String fileUploaderSubPath = "abonnement" + File.separator + abonnementId;
 
@@ -121,15 +121,25 @@ public class ImageService {
         return filename.substring(lastDotIndex + 1).toLowerCase();
     }
 
-    public List<ImageResponse> findAllImages(int abonnementId) {
+    public List<ImageResponse> findAllImages(Long abonnementId) {
 
         Abonnement abonnement = abonnementRepositorie.findById(abonnementId)
                 .orElseThrow(()-> new EntityNotFoundException("Cet Abonnement n existe pas"));
 
         List<Image> images = imageRepositorie.findAll(ImageSpecification.byAbonnement(abonnementId));
-        List<ImageResponse> imageResponses = images.stream()
+        return
+                images.stream()
                 .map(imageMapperClass::toImageResponse)
                 .toList();
-        return imageResponses;
+    }
+
+    public List<ImageResponse> getImageByAbonnement(Long abonnementId){
+        Abonnement abonnement = this.abonnementRepositorie.findById(abonnementId)
+                .orElseThrow(()->new EntityNotFoundException("Elément introuvable"));
+
+
+        return this.imageRepositorie.findAllByAbonnement(abonnement).stream()
+                .map(this.imageMapperClass::toImageResponse)
+                .toList();
     }
 }

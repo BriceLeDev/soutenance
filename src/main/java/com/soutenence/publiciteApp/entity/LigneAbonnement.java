@@ -1,12 +1,10 @@
 package com.soutenence.publiciteApp.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -15,7 +13,6 @@ import java.time.LocalDate;
 @Entity
 @SuperBuilder
 public class LigneAbonnement extends BaseEntity{
-
 
     @ManyToOne
     @JoinColumn(name = "abonnement_id")
@@ -36,7 +33,7 @@ public class LigneAbonnement extends BaseEntity{
     public LigneAbonnement() {
     }
 
-    public LigneAbonnement(int id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy) {
+    public LigneAbonnement(Long id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy) {
         super(id, createdAt, updateAt, createdBy, updateBy);
     }
 
@@ -55,7 +52,7 @@ public class LigneAbonnement extends BaseEntity{
         this.dateDebut = dateDebut;
     }
 
-    public LigneAbonnement(int id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy, Abonnement abonnement, Panneau panneau, LocalDate dateFin, LocalDate dateDebut) {
+    public LigneAbonnement(Long id, LocalDate createdAt, LocalDate updateAt, int createdBy, int updateBy, Abonnement abonnement, Panneau panneau, LocalDate dateFin, LocalDate dateDebut) {
         super(id, createdAt, updateAt, createdBy, updateBy);
         this.abonnement = abonnement;
         this.panneau = panneau;
