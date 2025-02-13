@@ -27,4 +27,6 @@ public interface AbonnementRepositorie  extends JpaRepository<Abonnement,Long> {
     List<Abonnement> findByDateAbnBetween(LocalDate date1, LocalDate date2);
 
     List<Abonnement> findByDateDebutBeforeAndDateFinAfter(LocalDate today1, LocalDate today);
+
+    List<Abonnement> findAllByCreatedAt(LocalDate localDate);
 }

@@ -3,6 +3,7 @@ package com.soutenence.publiciteApp.ResponseAndRequest;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +20,10 @@ public class AbonnementResponse {
     private LocalDate dateFin;
     private LocalDate dateDebut;
     private LocalDate dateAbn;
-    private int nbrJrs;
+    private long nbrJrs;
     private boolean actif;
     private boolean valid;
     private String description;
-
-
-
+    private String user;
+    private List<byte[]> picture;
 }

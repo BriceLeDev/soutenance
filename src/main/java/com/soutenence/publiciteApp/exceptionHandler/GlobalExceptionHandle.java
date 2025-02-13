@@ -44,9 +44,7 @@ public class GlobalExceptionHandle {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(
                         ExceptionResponse.builder()
-                                .busynesErrorCode(BusinessErrorCode.BAD_CREDENTIAL.getCode())
-                                .bussnessErrorDescription(BusinessErrorCode.BAD_CREDENTIAL.getDescription())
-                                .error(ex.getMessage())
+                               .error(ex.getMessage())
                                 .build()
                 );
     }
@@ -143,7 +141,7 @@ public class GlobalExceptionHandle {
     }
 
     //exception pour handle tout type d exception non spécifier dans l application
-  @ExceptionHandler(Exception.class)
+ /* @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> ExceptionHandler(Exception ex){
         //nécessite d etre enrégistrer dans le fichier log
         ex.getStackTrace();
@@ -155,5 +153,5 @@ public class GlobalExceptionHandle {
                                 .error(ex.getMessage())
                                 .build()
                 );
-    }
+    }*/
 }

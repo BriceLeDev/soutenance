@@ -5,11 +5,19 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @SuperBuilder
 public class LigneAbonnement extends BaseEntity{
@@ -26,7 +34,10 @@ public class LigneAbonnement extends BaseEntity{
     private LocalDate dateFin;
     private LocalDate dateDebut;
 
-    public LigneAbonnement(BaseEntityBuilder<?, ?> b) {
+    @ManyToOne()
+    private Image theImage;
+
+    /*public LigneAbonnement(BaseEntityBuilder<?, ?> b) {
         super(b);
     }
 
@@ -90,5 +101,5 @@ public class LigneAbonnement extends BaseEntity{
 
     public void setDateDebut(LocalDate dateDebut) {
         this.dateDebut = dateDebut;
-    }
+    }*/
 }

@@ -9,6 +9,7 @@ import com.soutenence.publiciteApp.enums.TypeMessage;
 import com.soutenence.publiciteApp.payement.entite.Transaction;
 import com.soutenence.publiciteApp.payement.repositories.TransactionRepository;
 import com.soutenence.publiciteApp.repository.*;
+import com.sun.jdi.PrimitiveValue;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -33,8 +35,9 @@ public class AbonnementService {
     private final LigneAbonnementRepositorie ligneAbonnementRepositorie;
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final ImageRepositorie imageRepositorie;
     private final MessageRepositorie messageRepositorie;
-    public AbonnementService(AbonnementRepositorie abonnementRepositorie, AbonnementMapperClass abonnementMapperClass, PanneauRepositorie panneauRepositorie, LigneAbonnementRepositorie ligneAbonnementRepositorie, TransactionRepository transactionRepository, UserRepository userRepository, MessageRepositorie messageRepositorie) {
+    public AbonnementService(AbonnementRepositorie abonnementRepositorie, AbonnementMapperClass abonnementMapperClass, PanneauRepositorie panneauRepositorie, LigneAbonnementRepositorie ligneAbonnementRepositorie, TransactionRepository transactionRepository, UserRepository userRepository, ImageRepositorie imageRepositorie, MessageRepositorie messageRepositorie) {
         this.abonnementRepositorie = abonnementRepositorie;
         this.abonnementMapperClass = abonnementMapperClass;
         this.panneauRepositorie = panneauRepositorie;
@@ -42,6 +45,7 @@ public class AbonnementService {
         this.transactionRepository = transactionRepository;
 
         this.userRepository = userRepository;
+        this.imageRepositorie = imageRepositorie;
         this.messageRepositorie = messageRepositorie;
     }
 
@@ -53,22 +57,10 @@ public class AbonnementService {
         }
         Abonnement abonnement = abonnementMapperClass.ToAbonnement(abonnementRequest);
 
-        /*for (int i = 0; i < abonnementRequest.panneau().size(); i++) {
-
-            Panneau panneau = panneauRepositorie.findById(abonnementRequest.id())
-                    .orElseThrow(()-> new EntityNotFoundException("Ce panneau n existe pas"));
-            panneau.setOccuped(true);
-            panneauRepositorie.save(panneau);
-        }*/
-
          abonnement.setUser(user);
          abonnement.setValid(false);
          abonnementRepositorie.save(abonnement);
 
-        //Ne pas oublier de gérer cet exception
-        /*if (abonnementRequest.Panneau() == null || abonnementRequest.Panneau().isEmpty()) {
-
-        }*/
         List<Long> lesPanneaux = abonnementRequest.Panneau();
         for (Long panneau : lesPanneaux ){
             Panneau myPann =panneauRepositorie.findById(panneau).orElseThrow(()-> new EntityNotFoundException("Ce panneau n existe pas"));
@@ -78,19 +70,14 @@ public class AbonnementService {
                     .dateDebut(abonnement.getDateDebut())
                     .panneau(myPann)
                     .build();
-            myPann.setOccuped(true);
+            if (Objects.equals(myPann.getTypePanneau().getLibelet(), "Statique-affiche")){
+                myPann.setOccuped(true);
+            }
             panneauRepositorie.save(myPann);
             ligneAbonnementRepositorie.save(ligneAbonnement);
 
         }
-        Message message = new Message();
-        message.setReceiver(user);
-        message.setAbonnement(abonnement);
-        message.setLocalDateTime(LocalDateTime.now());
-        message.setType(TypeMessage.CONFIRMATION);
-        String text = "Merci pour votre abonnement. \n Vous aurez une confirmation dans 72h après une vérification.";
-        message.setMessage(text);
-        this.messageRepositorie.save(message);
+
         return abonnement.getId();
     }
 
@@ -213,7 +200,10 @@ public class AbonnementService {
             for(LigneAbonnement lab : ligneAbonnements){
                 Panneau panneau = this.panneauRepositorie.findById(lab.getPanneau().getId())
                         .orElseThrow(()-> new EntityNotFoundException("Aucun élément trouvé"));
-                panneau.setOccuped(true);
+
+                if (panneau.getTypePanneau().getLibelet().equalsIgnoreCase("Statique-affiche")){
+                    panneau.setOccuped(true);
+                }
                 panneauRepositorie.save(panneau);
             }
         }

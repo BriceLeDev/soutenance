@@ -7,7 +7,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class PanneauResponse {
+public class PanneauResponsePrint {
     private Long id;
     private String localisation;
     private Integer taille;

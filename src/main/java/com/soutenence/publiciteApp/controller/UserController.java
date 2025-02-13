@@ -23,12 +23,12 @@ public class UserController {
     }
 
 
-  /*  @CrossOrigin(originPatterns = "http://localhost:4200")
+  /* @CrossOrigin(originPatterns = "http://localhost:4200")
     @GetMapping(path = "/{owner-id}")
     public UserResponse getUserById(@PathVariable("owner-id") int userId){
         return this.userService.getUser(userId);
-    }
-*/
+    }*/
+
     @GetMapping(path = "/{owner-email}")
     public UserResponse getUserByEmail(@RequestParam(name = "email") String email){
         return this.userService.getUserByEmail(email);

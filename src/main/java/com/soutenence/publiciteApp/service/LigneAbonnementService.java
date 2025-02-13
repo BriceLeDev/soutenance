@@ -24,12 +24,20 @@ public class LigneAbonnementService {
     }
 
 
-    public List<LigneAbonnementResponse> getAllLine(Long abonnementId) {
+    public List<LigneAbonnementResponse> getAllLineByAbonnement(Long abonnementId) {
 
         Abonnement abonnement = this.abonnementRepositorie.findById(abonnementId).orElseThrow(
                 () -> new EntityNotFoundException("Cet Abonnement n existe pas"));
 
         return ligneAbonnementRepositorie.findAllByAbonnement(abonnement)
+                .stream()
+                .map(ligneAbonnementMapperClass::ToLigneAbonnementResponse)
+                .toList();
+    }
+
+
+    public List<LigneAbonnementResponse> getAllLine() {
+        return ligneAbonnementRepositorie.findAll()
                 .stream()
                 .map(ligneAbonnementMapperClass::ToLigneAbonnementResponse)
                 .toList();

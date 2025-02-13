@@ -17,6 +17,7 @@ public class PanneauMapperClass {
                 .printPrice(panneauRquest.printPrice())
                 .prixMensuel(panneauRquest.prixMensuel())
                 .NbreFace(panneauRquest.nbRFace())
+                .enabled(true)
                 .build();
     }
 
@@ -30,6 +31,7 @@ public class PanneauMapperClass {
                 .printPrice(panneau.getPrintPrice())
                 .occuped(panneau.isOccuped())
                 .nbrFace(panneau.getNbreFace())
+                .enabled(panneau.isEnabled())
                 .boulevardName(panneau.getBoulevard().getName())
                 .typePanneauLibele(panneau.getTypePanneau().getLibelet())
                 .build();

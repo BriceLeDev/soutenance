@@ -3,10 +3,20 @@ package com.soutenence.publiciteApp.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @SuperBuilder
 public class Image extends BaseEntity {
@@ -17,6 +27,11 @@ public class Image extends BaseEntity {
     @JoinColumn(name = "abonnement_id", nullable = false)
     private Abonnement  abonnement;
 
+    private  LocalDate dateDebut;
+    private  LocalDate dateFin;
+    @OneToMany(mappedBy = "theImage")
+    private List<LigneAbonnement> ligneAbonnements;
+/*
     public Image(BaseEntityBuilder<?, ?> b) {
         super(b);
     }
@@ -59,5 +74,5 @@ public class Image extends BaseEntity {
 
     public void setAbonnement(Abonnement abonnement) {
         this.abonnement = abonnement;
-    }
+    }*/
 }

@@ -16,6 +16,10 @@ public class MessageMapperClass {
                 .receiverMail(message.getReceiver().getEmail())
                 .abonnementId(message.getAbonnement().getId())
                 .localDateTime(message.getLocalDateTime())
+                .dateDebAbn(message.getAbonnement().getDateAbn())
+                .dateFinAbn(message.getAbonnement().getDateFin())
+                .dateAbn(message.getAbonnement().getDateAbn())
+                .descriptionAbn(message.getAbonnement().getDescription())
                 .type(message.getType())
                 .build();
     }

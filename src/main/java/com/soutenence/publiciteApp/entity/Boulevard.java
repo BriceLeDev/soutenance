@@ -68,7 +68,7 @@ public class Boulevard extends BaseEntity {
 
 
     public Integer getNbrDePanneau(){
-        Integer nbr =0;
+        int nbr =0;
         if(this.panneaux == null || this.panneaux.isEmpty()){
             return nbr;
         }

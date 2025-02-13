@@ -67,7 +67,7 @@ public class AuthenticationService {
     }
 
     public void register(RegistrationFormRequest request) throws MessagingException {
-        var userRole = roleRepository.findByName("ADMIN").orElseThrow(()-> new IllegalStateException("Role non initialiser"));
+        var userRole = roleRepository.findByName("USER").orElseThrow(()-> new IllegalStateException("Role non initialiser"));
         if(!Objects.equals(request.getPassword(), request.getConfirmPassword())){
             throw new RuntimeException("Les mots de passe sont incorrect");
         }

@@ -28,7 +28,7 @@ public class Panneau extends BaseEntity {
     private Long printPrice;
     private int NbreFace;
     private boolean occuped ;
-
+    private boolean enabled;
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "boulevard_id")

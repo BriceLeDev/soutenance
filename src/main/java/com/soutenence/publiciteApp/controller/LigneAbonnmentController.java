@@ -21,8 +21,12 @@ public class LigneAbonnmentController {
         this.ligneAbonnementService = ligneAbonnementService;
     }
 
-    @GetMapping("/all")
-    public List<LigneAbonnementResponse> getAllLigneAbn(@RequestParam("abonnementId" ) Long abonnementId){
-        return this.ligneAbonnementService.getAllLine( abonnementId);
+    @GetMapping("/all-by-user")
+    public List<LigneAbonnementResponse> getAllLigneAbn(Long abonnementId){
+        return this.ligneAbonnementService.getAllLineByAbonnement(abonnementId);
+    }
+    @GetMapping("/all-line")
+    public List<LigneAbonnementResponse> getAllLigneAbn(){
+        return this.ligneAbonnementService.getAllLine();
     }
 }

@@ -12,6 +12,8 @@ public class ImageMapperClass {
 
         return ImageResponse.builder()
                 .picture(FilesUtils.readFileFromLocation(image.getNomImage()))
+                .dateDebut(image.getAbonnement().getDateDebut())
+                .dateFin(image.getAbonnement().getDateFin())
                 .build();
     }
 }

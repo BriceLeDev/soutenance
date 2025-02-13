@@ -45,7 +45,6 @@ public class AbonnementController {
 
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/all-abonnements")
     public PageResponse<AbonnementResponse> getAllAbonnement(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,

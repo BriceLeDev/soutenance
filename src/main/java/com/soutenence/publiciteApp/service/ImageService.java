@@ -4,8 +4,10 @@ import com.soutenence.publiciteApp.Mapper.ImageMapperClass;
 import com.soutenence.publiciteApp.ResponseAndRequest.ImageResponse;
 import com.soutenence.publiciteApp.entity.Abonnement;
 import com.soutenence.publiciteApp.entity.Image;
+import com.soutenence.publiciteApp.entity.LigneAbonnement;
 import com.soutenence.publiciteApp.repository.AbonnementRepositorie;
 import com.soutenence.publiciteApp.repository.ImageRepositorie;
+import com.soutenence.publiciteApp.repository.LigneAbonnementRepositorie;
 import com.soutenence.publiciteApp.specification.ImageSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotNull;
@@ -32,13 +34,14 @@ public class ImageService {
     private final AbonnementRepositorie abonnementRepositorie ;
     private final ImageRepositorie imageRepositorie;
     private final ImageMapperClass imageMapperClass;
+    private final LigneAbonnementRepositorie ligneAbonnementRepositorie;
 
 
-
-    public ImageService(AbonnementRepositorie abonnementRepositorie, ImageRepositorie imageRepositorie, ImageMapperClass imageMapperClass) {
+    public ImageService(AbonnementRepositorie abonnementRepositorie, ImageRepositorie imageRepositorie, ImageMapperClass imageMapperClass, LigneAbonnementRepositorie ligneAbonnementRepositorie) {
         this.abonnementRepositorie = abonnementRepositorie;
         this.imageRepositorie = imageRepositorie;
         this.imageMapperClass = imageMapperClass;
+        this.ligneAbonnementRepositorie = ligneAbonnementRepositorie;
     }
 
     public void saveFile(@NotNull MultipartFile file, Long abonnementId) {
@@ -46,10 +49,29 @@ public class ImageService {
         Abonnement abonnement = abonnementRepositorie.findById(abonnementId)
                 .orElseThrow(()-> new EntityNotFoundException("Cet Abonnement n existe pas"));
 
+        /*for (MultipartFile file : files) {
+            String filePath = uploadFile("abonnement" + File.separator + abonnementId, file);
+            if (filePath != null) {
+                Image image = new Image();
+                image.setNomImage(filePath);
+                image.setAbonnement(abonnement);
+                imageRepositorie.save(image);
+            }
+        }*/
+
+        //List<LigneAbonnement> ligneAbonnements = abonnement.getLigneAbonnements();
         Image image = new Image();
         image.setNomImage(uploadPicture(file,abonnementId));
         image.setAbonnement(abonnement);
+        image.setDateDebut(abonnement.getDateDebut());
+        image.setDateFin(abonnement.getDateFin());
+
+        List<LigneAbonnement> ligneAbonnements = ligneAbonnementRepositorie.findAllByAbonnement(abonnement);
+        for (LigneAbonnement lgn : ligneAbonnements){
+            lgn.setTheImage(image);
+        }
         imageRepositorie.save(image);
+
     }
 
 

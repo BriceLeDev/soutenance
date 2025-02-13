@@ -1,16 +1,13 @@
 package com.soutenence.publiciteApp.ResponseAndRequest;
 
-import com.soutenence.publiciteApp.entity.Panneau;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class LigneAbonnementResponse {
+public class LigneAbonnementResponsePrint {
 
     private Long panneauId;
     private  String boulevardName;
@@ -18,8 +15,5 @@ public class LigneAbonnementResponse {
     private int nbrFace;
     private  int taille;
     private  String type;
-    private Long price;
-    private Long printPrice;
-    private byte[] picture;
 
 }

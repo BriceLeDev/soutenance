@@ -48,6 +48,7 @@ public class PanneauService {
         Panneau panneau = panneauMapperClass.ToPanneau(panneauRquest);
         panneau.setTypePanneau(typePanneau);
         panneau.setBoulevard(boulevard);
+        panneau.setEnabled(true);
         return panneauRepositorie.save(panneau).getId();
     }
 
@@ -200,5 +201,14 @@ public class PanneauService {
     public void deletePanneau(Long panneauId) {
         this.panneauRepositorie.delete(this.panneauRepositorie
                 .findById(panneauId).orElseThrow(()->new EntityNotFoundException("Panneau non trouvé!")));
+    }
+
+    public void setPanneauEnabled(Long panneauId){
+        Panneau panneau  = this.panneauRepositorie.findById(panneauId).orElseThrow(
+                ()-> new EntityNotFoundException("Panneau non trouver")
+
+        );
+        panneau.setEnabled(false);
+        this.panneauRepositorie.save(panneau);
     }
 }
