@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,8 +88,42 @@ public class UserService {
 
     public PageResponse<UserResponse> getAllUsersCustomer(int page, int size) {
         String role="USER";
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAT"));
         Page<User> customerPage = userRepository.findAllUserByRole(pageable,role);
+        List<UserResponse> customerList = customerPage.stream()
+                .map(userMapperClass::toUserResponse)
+                .toList();
+        return new PageResponse<>(
+                customerList,
+                customerPage.getNumber(),
+                customerPage.getSize(),
+                customerPage.getTotalElements(),
+                customerPage.getTotalPages(),
+                customerPage.isFirst(),
+                customerPage.isLast()
+        );
+    }
+    public PageResponse<UserResponse> getUsersCustomerByMail(String mail,int page, int size) {
+        String role="USER";
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAT"));
+        Page<User> customerPage = userRepository.findAllUserByRoleAndMail(pageable,role,mail);
+        List<UserResponse> customerList = customerPage.stream()
+                .map(userMapperClass::toUserResponse)
+                .toList();
+        return new PageResponse<>(
+                customerList,
+                customerPage.getNumber(),
+                customerPage.getSize(),
+                customerPage.getTotalElements(),
+                customerPage.getTotalPages(),
+                customerPage.isFirst(),
+                customerPage.isLast()
+        );
+    }
+    public PageResponse<UserResponse> getAllUsersCustomerBetween2Date(LocalDate date1, LocalDate date2, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAT"));
+        Page<User> customerPage = userRepository.findAllCustomerByCreatedATBetween(pageable,date1,date2);
         List<UserResponse> customerList = customerPage.stream()
                 .map(userMapperClass::toUserResponse)
                 .toList();
@@ -105,8 +140,26 @@ public class UserService {
 
     public PageResponse<UserResponse> getAllUsersAdmin(int page, int size) {
         String role="ADMIN";
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAT"));
         Page<User> customerPage = userRepository.findAllUserByRole(pageable,role);
+        List<UserResponse> customerList = customerPage.stream()
+                .map(userMapperClass::toUserResponse)
+                .toList();
+        return new PageResponse<>(
+                customerList,
+                customerPage.getNumber(),
+                customerPage.getSize(),
+                customerPage.getTotalElements(),
+                customerPage.getTotalPages(),
+                customerPage.isFirst(),
+                customerPage.isLast()
+
+        );
+    }
+    public PageResponse<UserResponse> getUsersAdminByMail(String mail, int page, int size) {
+        String role="ADMIN";
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAT"));
+        Page<User> customerPage = userRepository.findAllUserByRoleAndMail(pageable,role,mail);
         List<UserResponse> customerList = customerPage.stream()
                 .map(userMapperClass::toUserResponse)
                 .toList();
@@ -142,7 +195,7 @@ public class UserService {
     }
 
     public PageResponse<UserResponse> getAllUsersCustomerNoAbnment(int page, int size) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAT"));
         Page<User> customerPage = userRepository.findAllUserByNoActifAbnment(pageable);
         List<UserResponse> customerList = customerPage.stream()
                 .map(userMapperClass::toUserResponse)
@@ -166,7 +219,7 @@ public class UserService {
         user.setFidelisation(true);
         return ResponseEntity.ok().build();
     }
-    public ResponseEntity<?> Fidelisation(Long userId){
+   /* public ResponseEntity<?> Fidelisation(Long userId){
         User user = this.userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
         if (user.isFidelisation()){
@@ -174,6 +227,6 @@ public class UserService {
         }
         user.setFidelisation(true);
         return ResponseEntity.ok().build();
-    }
+    }*/
 
 }

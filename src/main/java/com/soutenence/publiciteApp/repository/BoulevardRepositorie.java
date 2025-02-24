@@ -13,6 +13,6 @@ public interface BoulevardRepositorie extends JpaRepository<Boulevard,Integer> {
     public Boulevard findByName(String name);
     public Boulevard findById(Long id);
 
-    public List<Boulevard> findByCreatedAtBetween(LocalDate date1, LocalDate date2);
+     public List<Boulevard> findByCreatedAtBetween(LocalDate date1, LocalDate date2);
     //Boulevard findByPanneau(Panneau panneau);
 }

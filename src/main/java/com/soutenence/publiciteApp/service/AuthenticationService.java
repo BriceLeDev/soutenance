@@ -69,11 +69,11 @@ public class AuthenticationService {
     public void register(RegistrationFormRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER").orElseThrow(()-> new IllegalStateException("Role non initialiser"));
         if(!Objects.equals(request.getPassword(), request.getConfirmPassword())){
-            throw new RuntimeException("Les mots de passe sont incorrect");
+            throw new RuntimeException("Les mots de passe sont incorrects");
         }
         Optional<User> user1 = this.userRepository.findByEmailIgnoreCase(request.getEmail());
         if(user1.isPresent()){
-            throw new UserAlreadyExists("Compte existant veuillez vous connectez");
+            throw new UserAlreadyExists("Ce compte existe déjà, veuillez vous connectez");
         }
         var user = User.builder()
                 .email(request.getEmail())

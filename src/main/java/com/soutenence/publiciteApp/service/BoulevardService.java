@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -54,6 +55,24 @@ if (Existboulevard!=null){
 
     //liste des boulevard en pagination
     public PageResponse<BoulevardResponse> findAll(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Boulevard> pageBoulevard = boulevardRepositorie.findAll(pageable);
+        List<BoulevardResponse> boulevardResponseList = pageBoulevard.stream()
+                .map(boulevardMapperClass::ToBoulevardResponse)
+                .toList();
+        return new PageResponse<>(
+                boulevardResponseList,
+                pageBoulevard.getNumber(),
+                pageBoulevard.getSize(),
+                pageBoulevard.getTotalElements(),
+                pageBoulevard.getTotalPages(),
+                pageBoulevard.isFirst(),
+                pageBoulevard.isLast()
+
+        );
+    }
+    public PageResponse<BoulevardResponse> findAllBetween2Dates(LocalDate localDate1, LocalDate localDate2, int page, int size) {
 
         Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
         Page<Boulevard> pageBoulevard = boulevardRepositorie.findAll(pageable);

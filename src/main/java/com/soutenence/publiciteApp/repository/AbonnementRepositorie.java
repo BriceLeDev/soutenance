@@ -17,6 +17,10 @@ public interface AbonnementRepositorie  extends JpaRepository<Abonnement,Long> {
 
     Page<Abonnement> findByDateFinBefore(Pageable pageable,LocalDate today);
 
+    Page<Abonnement> findByDateDebutBefore(Pageable pageable,LocalDate today);
+
+    Page<Abonnement> findByDateAbnBefore(Pageable pageable,LocalDate localDate);
+
     Page<Abonnement> findByUserAndDateFinBefore(Pageable pageable, LocalDate today, int id);
 
 
@@ -24,9 +28,11 @@ public interface AbonnementRepositorie  extends JpaRepository<Abonnement,Long> {
 
     List<Abonnement> findByDateFinAfter(LocalDate today);
 
-    List<Abonnement> findByDateAbnBetween(LocalDate date1, LocalDate date2);
+    Page<Abonnement> findByDateAbnBetween(Pageable pageable ,LocalDate date1, LocalDate date2);
 
     List<Abonnement> findByDateDebutBeforeAndDateFinAfter(LocalDate today1, LocalDate today);
 
     List<Abonnement> findAllByCreatedAt(LocalDate localDate);
+
+    Page<Abonnement> findAllByDateAbn(Pageable pageable, LocalDate localDate);
 }

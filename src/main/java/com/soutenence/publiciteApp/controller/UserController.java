@@ -43,7 +43,7 @@ public class UserController {
     @CrossOrigin(originPatterns = "http://localhost:4200")
     @PutMapping(path = "/update/fidelisation/{owner-id}")
     public ResponseEntity<?> updateUserFidelisation(@PathVariable("owner-id") long userId ){
-         this.userService.Fidelisation(userId);
+         this.userService.setFidelisation(userId);
          return ResponseEntity.ok().build();
     }
 

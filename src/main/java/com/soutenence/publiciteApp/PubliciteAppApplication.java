@@ -1,8 +1,10 @@
 package com.soutenence.publiciteApp;
 
 import com.soutenence.publiciteApp.entity.Role;
+import com.soutenence.publiciteApp.entity.TypePanneau;
 import com.soutenence.publiciteApp.entity.User;
 import com.soutenence.publiciteApp.repository.RoleRepository;
+import com.soutenence.publiciteApp.repository.TypePanneauRepository;
 import com.soutenence.publiciteApp.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.boot.CommandLineRunner;
@@ -29,7 +31,7 @@ public class PubliciteAppApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(RoleRepository  roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder){
+	public CommandLineRunner commandLineRunner(RoleRepository  roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, TypePanneauRepository typePanneauRepository){
 		return args -> {
 			if (roleRepository.findByName("USER").isEmpty()){
 				roleRepository.save(
@@ -52,11 +54,33 @@ public class PubliciteAppApplication {
 								.email("admin2@gmail.com")
 								.enabled(true)
 								.nonUtilisateur("ABALO Jean")
-								.password(passwordEncoder.encode("\"Admin@12345\""))
+								.password(passwordEncoder.encode("Admin@12345"))
 								.numero("92370843")
 								.roles(List.of(role))
 								.fidelisation(true)
 								.createdAT(LocalDateTime.now())
+								.build()
+				);
+			}
+
+			if (typePanneauRepository.findByLibelet("Statique-affiche") == null){
+				typePanneauRepository.save(
+						TypePanneau.builder()
+								.libelet("Statique-affiche")
+								.build()
+				);
+			}
+			if (typePanneauRepository.findByLibelet("Numérique-image") == null){
+				typePanneauRepository.save(
+						TypePanneau.builder()
+								.libelet("Numérique-image")
+								.build()
+				);
+			}
+			if (typePanneauRepository.findByLibelet("Numérique-vidéo") == null){
+				typePanneauRepository.save(
+						TypePanneau.builder()
+								.libelet("Numérique-vidéo")
 								.build()
 				);
 			}

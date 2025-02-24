@@ -47,6 +47,7 @@ public class JwtFilter extends OncePerRequestFilter  {
             filterChain.doFilter(request,response);
             return;
         }
+        //log.info("le path de la requete est : " + request.getServletPath());
        // log.info("Processing request for URL: {}", request.getRequestURI());
        // log.info("Processing entete de la requete : {}", request.getHeader("Bearer"));
     

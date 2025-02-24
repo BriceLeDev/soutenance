@@ -9,7 +9,6 @@ import com.soutenence.publiciteApp.enums.TypeMessage;
 import com.soutenence.publiciteApp.payement.entite.Transaction;
 import com.soutenence.publiciteApp.payement.repositories.TransactionRepository;
 import com.soutenence.publiciteApp.repository.*;
-import com.sun.jdi.PrimitiveValue;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -147,6 +146,58 @@ public class AbonnementService {
         );
     }
 
+    /**
+     * Abonnement a venir
+     * @param page
+     * @param size
+     * @return PageResponse<AbonnementResponse>
+     */
+    public PageResponse<AbonnementResponse> getAllBecomeAbonnement(int page, int size){
+        LocalDate today = LocalDate.now();
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findByDateDebutBefore(pageable,today);
+
+        List<AbonnementResponse> abonnementResponseList = PageExpiredAbonnement.stream()
+                .map(abonnementMapperClass::ToAbonnementResponse)
+                .toList();
+        return new PageResponse<>(
+                abonnementResponseList,
+                PageExpiredAbonnement.getNumber(),
+                PageExpiredAbonnement.getSize(),
+                PageExpiredAbonnement.getTotalElements(),
+                PageExpiredAbonnement.getTotalPages(),
+                PageExpiredAbonnement.isFirst(),
+                PageExpiredAbonnement.isLast()
+
+        );
+    }
+
+    /**
+     * Abonnement à venir dans une semaine
+     * @param page
+     * @param size
+     * @return
+     */
+    public PageResponse<AbonnementResponse> getAllAbonnementComingSoon(int page, int size){
+        LocalDate today = LocalDate.now();
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findByDateAbnBefore(pageable,getOneWeekBefore(today));
+
+        List<AbonnementResponse> abonnementResponseList = PageExpiredAbonnement.stream()
+                .map(abonnementMapperClass::ToAbonnementResponse)
+                .toList();
+        return new PageResponse<>(
+                abonnementResponseList,
+                PageExpiredAbonnement.getNumber(),
+                PageExpiredAbonnement.getSize(),
+                PageExpiredAbonnement.getTotalElements(),
+                PageExpiredAbonnement.getTotalPages(),
+                PageExpiredAbonnement.isFirst(),
+                PageExpiredAbonnement.isLast()
+
+        );
+    }
+
     public PageResponse<AbonnementResponse> getAllAbonnementExpiredById(int id,int page,int size){
         LocalDate today = LocalDate.now();
         Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
@@ -166,7 +217,9 @@ public class AbonnementService {
         );
 
     }
-    public PageResponse<AbonnementResponse> getAllAbonnementByDateFilter(int id,int page,int size){
+
+    //les abonnement en cours par owner
+    public PageResponse<AbonnementResponse> getAllAbonnementByDateFilterByOwner(int id,int page,int size){
         LocalDate today = LocalDate.now();
         Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
         Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findByUserAndDateFinBefore(pageable,today,id);
@@ -185,6 +238,56 @@ public class AbonnementService {
         );
 
     }
+
+    /**
+     * Abonnement par date
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    public PageResponse<AbonnementResponse> getAllAbonnementByDateFilter(LocalDate localDate,int page,int size){
+        //LocalDate today = LocalDate.now();
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findAllByDateAbn(pageable,localDate);
+
+        List<AbonnementResponse> abonnementResponseList = PageExpiredAbonnement.stream()
+                .map(abonnementMapperClass::ToAbonnementResponse)
+                .toList();
+        return new PageResponse<>(
+                abonnementResponseList,
+                PageExpiredAbonnement.getNumber(),
+                PageExpiredAbonnement.getSize(),
+                PageExpiredAbonnement.getTotalElements(),
+                PageExpiredAbonnement.getTotalPages(),
+                PageExpiredAbonnement.isFirst(),
+                PageExpiredAbonnement.isLast()
+        );
+
+    }
+
+    //abonnement entre deux date
+    public PageResponse<AbonnementResponse> getAllAbonnementBetween2Date(LocalDate localDate1, LocalDate localDate2, int page, int size){
+        //LocalDate today = LocalDate.now();
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findByDateAbnBetween(pageable,localDate1,localDate2);
+
+        List<AbonnementResponse> abonnementResponseList = PageExpiredAbonnement.stream()
+                .map(abonnementMapperClass::ToAbonnementResponse)
+                .toList();
+        return new PageResponse<>(
+                abonnementResponseList,
+                PageExpiredAbonnement.getNumber(),
+                PageExpiredAbonnement.getSize(),
+                PageExpiredAbonnement.getTotalElements(),
+                PageExpiredAbonnement.getTotalPages(),
+                PageExpiredAbonnement.isFirst(),
+                PageExpiredAbonnement.isLast()
+        );
+
+    }
+
+
 
   @Scheduled(fixedRate = 5000)
    public  void setPanneauBusy(){
@@ -243,7 +346,7 @@ public class AbonnementService {
         message.setType(TypeMessage.CONFIRMATION);
         message.setReceiver(abonnement.getUser());
         message.setLocalDateTime(LocalDateTime.now());
-        String text  = "";
+        String text  = " Votre abonnement est validé après vérification. Il debutera le : " +abonnement.getDateDebut();
         message.setMessage(text);
         this.messageRepositorie.save(message);
 
@@ -265,5 +368,10 @@ public class AbonnementService {
         this.messageRepositorie.save(message);
 
     }
+
+    public static LocalDate getOneWeekBefore(LocalDate date) {
+        return date.minusWeeks(1);
+    }
+
 }
 
