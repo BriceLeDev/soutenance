@@ -285,6 +285,49 @@ public class AbonnementService {
                 PageExpiredAbonnement.isLast()
         );
 
+    } //abonnement entre deux date
+    public PageResponse<AbonnementResponse> getAbonnementsExpirantCeMois(int page, int size){
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfMonth = today.withDayOfMonth(1);
+        LocalDate lastDayOfMonth = today.withDayOfMonth(today.lengthOfMonth());
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findAbonnementsExpirantCeMois(pageable,firstDayOfMonth,lastDayOfMonth);
+
+        List<AbonnementResponse> abonnementResponseList = PageExpiredAbonnement.stream()
+                .map(abonnementMapperClass::ToAbonnementResponse)
+                .toList();
+        return new PageResponse<>(
+                abonnementResponseList,
+                PageExpiredAbonnement.getNumber(),
+                PageExpiredAbonnement.getSize(),
+                PageExpiredAbonnement.getTotalElements(),
+                PageExpiredAbonnement.getTotalPages(),
+                PageExpiredAbonnement.isFirst(),
+                PageExpiredAbonnement.isLast()
+        );
+
+    } //abonnement entre deux date
+    public PageResponse<AbonnementResponse> getAbonnementsCommençantMoisProchain( int page, int size){
+        LocalDate today = LocalDate.now();
+        LocalDate firstDayOfNextMonth = today.withDayOfMonth(1).plusMonths(1);
+        LocalDate lastDayOfNextMonth = firstDayOfNextMonth.withDayOfMonth(firstDayOfNextMonth.lengthOfMonth());
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Abonnement> PageExpiredAbonnement = this.abonnementRepositorie.findAbonnementsCommençantMoisProchain(pageable,firstDayOfNextMonth,lastDayOfNextMonth);
+
+        List<AbonnementResponse> abonnementResponseList = PageExpiredAbonnement.stream()
+                .map(abonnementMapperClass::ToAbonnementResponse)
+                .toList();
+        return new PageResponse<>(
+                abonnementResponseList,
+                PageExpiredAbonnement.getNumber(),
+                PageExpiredAbonnement.getSize(),
+                PageExpiredAbonnement.getTotalElements(),
+                PageExpiredAbonnement.getTotalPages(),
+                PageExpiredAbonnement.isFirst(),
+                PageExpiredAbonnement.isLast()
+        );
+
     }
 
 

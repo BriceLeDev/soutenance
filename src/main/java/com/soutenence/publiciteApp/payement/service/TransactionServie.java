@@ -2,14 +2,17 @@ package com.soutenence.publiciteApp.payement.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soutenence.publiciteApp.Mapper.TransactionMapperClass;
+import com.soutenence.publiciteApp.ResponseAndRequest.AbonnementResponse;
+import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
 import com.soutenence.publiciteApp.entity.Abonnement;
 import com.soutenence.publiciteApp.entity.Message;
-import com.soutenence.publiciteApp.entity.User;
 import com.soutenence.publiciteApp.enums.NiveauPayement;
 import com.soutenence.publiciteApp.enums.TypeMessage;
 import com.soutenence.publiciteApp.payement.Response.CheckTransactionResponse;
 import com.soutenence.publiciteApp.payement.Response.LinkPayementRespons;
 import com.soutenence.publiciteApp.payement.Response.NotificationRequestBody;
+import com.soutenence.publiciteApp.payement.Response.TransactionResponse;
 import com.soutenence.publiciteApp.payement.entite.Facture;
 import com.soutenence.publiciteApp.payement.entite.Transaction;
 import com.soutenence.publiciteApp.payement.enums.Currency;
@@ -25,10 +28,13 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -38,7 +44,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 import java.util.UUID;
 @Slf4j
 @Service
@@ -51,6 +57,8 @@ public class TransactionServie {
     private final RestTemplate restTemplate;
     private final HttpServletResponse httpServletResponse;
     private final MessageRepositorie messageRepositorie;
+    private final TransactionMapperClass transactionMapperClass;
+
     @Value("${app.integrator.apiKey}")
     private String apiKey;
     @Value("${app.integrator.siteIid}")
@@ -60,7 +68,7 @@ public class TransactionServie {
     @Value("${app.integrator.ngrockUrl}")
     private String ngrockUrl;
 
-    public TransactionServie(WebClient.Builder builder, AbonnementRepositorie abonnementRepositorie, TransactionRepository transactionRepository, FactureRepository factureRepository, RestTemplate restTemplate, HttpServletResponse httpServletResponse, MessageRepositorie messageRepositorie) {
+    public TransactionServie(WebClient.Builder builder, AbonnementRepositorie abonnementRepositorie, TransactionRepository transactionRepository, FactureRepository factureRepository, RestTemplate restTemplate, HttpServletResponse httpServletResponse, MessageRepositorie messageRepositorie, TransactionMapperClass transactionMapperClass) {
         this.builder = builder;
         this.abonnementRepositorie = abonnementRepositorie;
         this.transactionRepository = transactionRepository;
@@ -68,6 +76,7 @@ public class TransactionServie {
         this.restTemplate = restTemplate;
         this.httpServletResponse = httpServletResponse;
         this.messageRepositorie = messageRepositorie;
+        this.transactionMapperClass = transactionMapperClass;
     }
 
     public LinkPayementRespons send(TransactionRequest request) throws JsonProcessingException {
@@ -210,4 +219,26 @@ public class TransactionServie {
         return price;
     }
 
+    public PageResponse<TransactionResponse> getAllTransactionByAbnmt() {
+
+        return null;
+    }
+
+    public PageResponse<TransactionResponse> getAllTransaction(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Page<Transaction> PageTransaction = this.transactionRepository.findAll(pageable);
+
+        List<TransactionResponse> ResponseList = PageTransaction.stream()
+                .map(transactionMapperClass::ToMessageResponse)
+                .toList();
+        return new PageResponse<>(
+                ResponseList,
+                PageTransaction.getNumber(),
+                PageTransaction.getSize(),
+                PageTransaction.getTotalElements(),
+                PageTransaction.getTotalPages(),
+                PageTransaction.isFirst(),
+                PageTransaction.isLast()
+        );
+    }
 }

@@ -22,12 +22,10 @@ public class UserController {
         this.userService = userService;
     }
 
-
-  /* @CrossOrigin(originPatterns = "http://localhost:4200")
-    @GetMapping(path = "/{owner-id}")
-    public UserResponse getUserById(@PathVariable("owner-id") int userId){
-        return this.userService.getUser(userId);
-    }*/
+    @GetMapping(path = "user-by-id")
+    public UserResponse getTheUserById(@RequestParam(name = "userId") long userId){
+        return  this.userService.getUser(userId);
+    }
 
     @GetMapping(path = "/{owner-email}")
     public UserResponse getUserByEmail(@RequestParam(name = "email") String email){
@@ -41,9 +39,27 @@ public class UserController {
     }
 
     @CrossOrigin(originPatterns = "http://localhost:4200")
-    @PutMapping(path = "/update/fidelisation/{owner-id}")
-    public ResponseEntity<?> updateUserFidelisation(@PathVariable("owner-id") long userId ){
+    @PutMapping(path = "/update/set-fidelisation/{owner-id}")
+    public ResponseEntity<?> updateUserFidelisationToFalse(@PathVariable("owner-id") long userId ){
          this.userService.setFidelisation(userId);
+         return ResponseEntity.ok().build();
+    }
+    @CrossOrigin(originPatterns = "http://localhost:4200")
+    @PutMapping(path = "/update/remove-fidelisation/{owner-id}")
+    public ResponseEntity<?> removeUserFidelisation(@PathVariable("owner-id") long userId ){
+         this.userService.setDeFidelisation(userId);
+         return ResponseEntity.ok().build();
+    }
+    @CrossOrigin(originPatterns = "http://localhost:4200")
+    @PutMapping(path = "/update/blocked-user/{owner-id}")
+    public ResponseEntity<?> updateUserBlocked(@PathVariable("owner-id") long userId ){
+         this.userService.blockUser(userId);
+         return ResponseEntity.ok().build();
+    }
+    @CrossOrigin(originPatterns = "http://localhost:4200")
+    @PutMapping(path = "/update/de-blocked-user/{owner-id}")
+    public ResponseEntity<?> updateUserDeBlocked(@PathVariable("owner-id") long userId ){
+         this.userService.deBlockUser(userId);
          return ResponseEntity.ok().build();
     }
 

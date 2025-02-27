@@ -80,9 +80,22 @@ public class AbonnementController {
         return this.abonnementService.getAllAbonnementExpiredById(id,page,size);
     }
 
+    @GetMapping("/abonnements-become-in-prev-mouth")
+    public PageResponse<AbonnementResponse> getAllBecomeAbonnementInPrevMouth(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size
+    ){
+        return this.abonnementService.getAbonnementsCommençantMoisProchain(page,size);
+    }
+    @GetMapping("/abonnements-expired-in-mouth")
+    public PageResponse<AbonnementResponse> getAllExpiredAbonnementInMouth(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size
+    ){
+        return this.abonnementService.getAbonnementsExpirantCeMois(page,size);
+    }
     @GetMapping("/abonnements-become-one-week")
-    public PageResponse<AbonnementResponse> getAllBecomeAbonnement(
-            @PathVariable(name = "id") int id,
+    public PageResponse<AbonnementResponse> getAllAbonnementExpireInMouth(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){
@@ -104,9 +117,9 @@ public class AbonnementController {
     ){
         return this.abonnementService.getAllAbonnementBetween2Date(date1,date2,page,size);
     }
-    @GetMapping("/abonnements-by-date")
+    @GetMapping("/abonnements-by-date/{date}")
     public PageResponse<AbonnementResponse> getAllAbonnementByDate(
-            @PathVariable(name = "id") LocalDate date,
+            @PathVariable(name = "date") LocalDate date,
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){

@@ -1,10 +1,11 @@
 package com.soutenence.publiciteApp.payement.controler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
 import com.soutenence.publiciteApp.payement.DateConvertisseur;
-import com.soutenence.publiciteApp.payement.Response.CheckTransactionResponse;
 import com.soutenence.publiciteApp.payement.Response.LinkPayementRespons;
 import com.soutenence.publiciteApp.payement.Response.NotificationRequestBody;
+import com.soutenence.publiciteApp.payement.Response.TransactionResponse;
 import com.soutenence.publiciteApp.payement.repositories.TransactionRepository;
 import com.soutenence.publiciteApp.payement.request.CheckTransactionRequest;
 import com.soutenence.publiciteApp.payement.request.TransactionRequest;
@@ -14,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -84,6 +84,24 @@ public class TransactionControler {
         return  this.transactionServie.checkTransaction(transactionRequest);
 
     }*/
+
+    @GetMapping("all-transaction-by-abnmt/{id}")
+    public PageResponse<TransactionResponse> getAllTransactionByAbonnement(
+            @PathVariable(name = "id") long id,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size){
+        return this.transactionServie.getAllTransactionByAbnmt();
+    }
+
+
+    @GetMapping("all-transaction")
+    public PageResponse<TransactionResponse> getAllTransaction(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size)
+    {
+        return this.transactionServie.getAllTransaction( page, size);
+    }
+
 
 
 

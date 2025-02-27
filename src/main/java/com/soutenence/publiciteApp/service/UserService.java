@@ -217,6 +217,39 @@ public class UserService {
             throw new RuntimeException("Ce client est déjà fidélisé");
         }
         user.setFidelisation(true);
+        this.userRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
+    public ResponseEntity<?> setDeFidelisation(Long userId){
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
+        if (user.isFidelisation()){
+            throw new RuntimeException("Ce client est déjà défidélisé");
+        }
+        user.setFidelisation(false);
+        this.userRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> blockUser(Long userId){
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
+        if (user.isAccountLocked()){
+            throw new RuntimeException("Ce client est déjà bloqué");
+        }
+        user.setAccountLocked(true);
+        this.userRepository.save(user);
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> deBlockUser(Long userId){
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
+        if (user.isAccountLocked()){
+            throw new RuntimeException("Ce client est déjà débloqué");
+        }
+        user.setAccountLocked(false);
+        this.userRepository.save(user);
         return ResponseEntity.ok().build();
     }
    /* public ResponseEntity<?> Fidelisation(Long userId){

@@ -5,6 +5,8 @@ import com.soutenence.publiciteApp.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -35,4 +37,13 @@ public interface AbonnementRepositorie  extends JpaRepository<Abonnement,Long> {
     List<Abonnement> findAllByCreatedAt(LocalDate localDate);
 
     Page<Abonnement> findAllByDateAbn(Pageable pageable, LocalDate localDate);
+
+    @Query("SELECT a FROM Abonnement a WHERE a.dateDebut BETWEEN :startOfNextMonth AND :endOfNextMonth")
+    Page<Abonnement> findAbonnementsCommençantMoisProchain(Pageable pageable, @Param("startOfNextMonth") LocalDate startOfNextMonth,
+                                                           @Param("endOfNextMonth") LocalDate endOfNextMonth);
+
+    @Query("SELECT a FROM Abonnement a WHERE a.dateFin BETWEEN :startOfMonth AND :endOfMonth")
+    Page<Abonnement> findAbonnementsExpirantCeMois(Pageable pageable, @Param("startOfMonth") LocalDate startOfMonth,
+                                                   @Param("endOfMonth") LocalDate endOfMonth);
+
 }
