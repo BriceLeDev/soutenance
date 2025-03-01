@@ -44,6 +44,8 @@ public class UserController {
          this.userService.setFidelisation(userId);
          return ResponseEntity.ok().build();
     }
+
+
     @CrossOrigin(originPatterns = "http://localhost:4200")
     @PutMapping(path = "/update/remove-fidelisation/{owner-id}")
     public ResponseEntity<?> removeUserFidelisation(@PathVariable("owner-id") long userId ){
@@ -70,6 +72,7 @@ public class UserController {
         userService.addAdmin(request);
         return ResponseEntity.accepted().build();
     }
+
 
     @GetMapping("/all-customer")
     @CrossOrigin(originPatterns = "http://localhost:4200")
