@@ -113,8 +113,8 @@ public class TransactionServie {
                 .description(transaction.getDescription())
                 .apikey(apiKey)
                 .site_id(siteId)
-                .notify_url("https://3f71-2c0f-f0f8-6bf-f700-4566-335a-eb8b-6637.ngrok-free.app/api/v1/payment/notification")
-                .return_url("https://3f71-2c0f-f0f8-6bf-f700-4566-335a-eb8b-6637.ngrok-free.app/api/v1/payment/return")
+                .notify_url("https://1317-196-170-107-63.ngrok-free.app/api/v1/payment/notification")
+                .return_url("https://1317-196-170-107-63.ngrok-free.app/api/v1/payment/return")
                 .build();
         log.info("This is return url ***** " + linkPayementRequest.getReturn_url());
         HttpHeaders headers = new HttpHeaders();

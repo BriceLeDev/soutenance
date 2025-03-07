@@ -3,13 +3,15 @@ server:
     context-path: /api/v1/
   port: 8088
 spring:
-  application:
-    name: publiciteApp
+  profiles:
+    active: default
   datasource:
-    url: jdbc:mysql://localhost:3306/panneau_db
+    url: jdbc:mysql://localhost:3306/panneau_db?useSSL=false&serverTimezone=UTC
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: publiciteApp
   jpa:
     hibernate:
       ddl-auto: update
