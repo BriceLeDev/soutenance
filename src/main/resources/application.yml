@@ -3,13 +3,15 @@ server:
     context-path: /api/v1/
   port: 8088
 spring:
-  application:
-    name: publiciteApp
+  profiles:
+    active: default
   datasource:
-    url: jdbc:mysql://localhost:3306/panneau_db
+    url: jdbc:mysql://localhost:3306/panneau_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: publiciteApp
   jpa:
     hibernate:
       ddl-auto: update
@@ -56,4 +58,4 @@ app:
     siteIid: 734813
     apiKey: 167092646965f9bbfa807873.13817346
     paymentUrl: https://api-checkout.cinetpay.com/v2/payment
-    ngrockUrl: https://d80d-2c0f-f0f8-6bf-f700-9dd8-84c6-5779-4a71.ngrok-free.app
+    ngrockUrl: https://0447-2c0f-f0f8-6bf-f700-3d47-529b-ae0a-f0eb.ngrok-free.app

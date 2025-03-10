@@ -113,8 +113,8 @@ public class TransactionServie {
                 .description(transaction.getDescription())
                 .apikey(apiKey)
                 .site_id(siteId)
-                .notify_url("https://3f71-2c0f-f0f8-6bf-f700-4566-335a-eb8b-6637.ngrok-free.app/api/v1/payment/notification")
-                .return_url("https://3f71-2c0f-f0f8-6bf-f700-4566-335a-eb8b-6637.ngrok-free.app/api/v1/payment/return")
+                .notify_url("https://6bdc-196-170-107-63.ngrok-free.app/api/v1/payment/notification")
+                .return_url("https://6bdc-196-170-107-63.ngrok-free.app/api/v1/payment/return")
                 .build();
         log.info("This is return url ***** " + linkPayementRequest.getReturn_url());
         HttpHeaders headers = new HttpHeaders();
@@ -127,7 +127,8 @@ public class TransactionServie {
         HttpEntity<String> request1 = new HttpEntity<>(jsonBody2, headers);
 
         LinkPayementRespons response = restTemplate.postForObject(url, request1, LinkPayementRespons.class);
-       return response;
+
+        return response;
 
     }
 
@@ -170,6 +171,7 @@ public class TransactionServie {
         facture.setDateFinAbn(transaction.getAbonnement().getDateFin());
         facture.setDateAbn(transaction.getAbonnement().getDateAbn());
         facture.setMtnTotal(transaction.getAbonnement().getPrix());
+        facture.setAbonnementId(transaction.getAbonnement().getId());
         facture.setReference(generateCombinedTransactionId().substring(0,8));
 
         Message messageForUser = new Message();

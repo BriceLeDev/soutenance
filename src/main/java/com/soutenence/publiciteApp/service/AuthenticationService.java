@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soutenence.publiciteApp.entity.Token;
 import com.soutenence.publiciteApp.entity.User;
 import com.soutenence.publiciteApp.enums.EmailTemplateName;
-import com.soutenence.publiciteApp.exceptionHandler.AccountAlreadyActiveException;
-import com.soutenence.publiciteApp.exceptionHandler.NoActiveAccountException;
-import com.soutenence.publiciteApp.exceptionHandler.TokenNonValideException;
-import com.soutenence.publiciteApp.exceptionHandler.UserAlreadyExists;
+import com.soutenence.publiciteApp.exceptionHandler.*;
 import com.soutenence.publiciteApp.repository.RoleRepository;
 import com.soutenence.publiciteApp.repository.TokenRepository;
 import com.soutenence.publiciteApp.repository.UserRepository;
@@ -69,7 +66,7 @@ public class AuthenticationService {
     public void register(RegistrationFormRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER").orElseThrow(()-> new IllegalStateException("Role non initialiser"));
         if(!Objects.equals(request.getPassword(), request.getConfirmPassword())){
-            throw new RuntimeException("Les mots de passe sont incorrects");
+            throw new IncorresctPasseWord("Les mots de passe sont incorrects");
         }
         Optional<User> user1 = this.userRepository.findByEmailIgnoreCase(request.getEmail());
         if(user1.isPresent()){
@@ -135,12 +132,14 @@ public class AuthenticationService {
     }
 
     //connexion du clien
-    public LoginFormResponse login(LoginFormRequest request) {
+    public LoginFormResponse login(LoginFormRequest request) throws MessagingException {
 
         User userAuth = userRepository.findByEmailIgnoreCase(request.getEmail())
                 .orElseThrow(()-> new EntityNotFoundException("Utilisateur n existe pas"));
         if (!userAuth.isEnabled()){
-                throw new NoActiveAccountException("Compte non activé impossible de se connecter");
+                sendValidationEmail(userAuth);
+                throw new NoActiveAccountException("Compte non activé impossible de se connecter.Veuillez vérifier votre boite mail pour activer votre compte");
+
 
         }
         var auth = authenticationManager.authenticate(

@@ -164,4 +164,11 @@ public class ImageService {
                 .map(this.imageMapperClass::toImageResponse)
                 .toList();
     }
+    public void updateImage(int idImage,Long abonnementId, MultipartFile file){
+        Image image = this.imageRepositorie.findById(idImage).orElseThrow(
+                ()-> new EntityNotFoundException("Image introuvable")
+        );
+        image.setNomImage(uploadPicture(file,abonnementId));
+        imageRepositorie.save(image);
+    }
 }

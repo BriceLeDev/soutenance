@@ -45,13 +45,17 @@ public class JwtService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();//recupérer la liste des autorisations de l'utilisateur
+        var isUserBlocked = userDetails.isAccountNonLocked();
+        var isNotActiveAccount = userDetails.isEnabled();
         return Jwts
                 .builder()
                 .claims(extraClaims)// Ajout des claims supplémentaires (si présents) dans le JWT
                 .subject(userDetails.getUsername())// Définition du sujet du JWT comme étant le nom d'utilisateur
                 .issuedAt(new Date(System.currentTimeMillis()))//Définition du moment de création du JWT
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration)) //Définition de la date d'expiration du JWT
-                .claim("authorities", authorities) //Ajout des autorisations (rôles) comme un claim dans le JWT
+                .claim("authorities", authorities)
+                .claim("isBlocked", isUserBlocked)//Ajout l'etat du compte comme un claim dans le JWT
+                .claim("isNotActiveAccount", isNotActiveAccount)//Ajout l'etat du compte comme un claim dans le JWT
                 .signWith(getSignKey()) // Signature du JWT avec une clé secrète (getSignKey() doit retourner une clé de signature valide)
                 .compact(); // Compactage et sérialisation du JWT en une chaîne de caractères
     }

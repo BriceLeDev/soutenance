@@ -20,6 +20,4 @@ public class LigneAbonnementResponse {
     private  String type;
     private Long price;
     private Long printPrice;
-    private byte[] picture;
-
 }

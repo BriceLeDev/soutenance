@@ -1,7 +1,6 @@
 package com.soutenence.publiciteApp.exceptionHandler;
 
 
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +47,45 @@ public class GlobalExceptionHandle {
                                 .build()
                 );
     }
+    @ExceptionHandler(IncorresctPasseWord.class)
+    public ResponseEntity<ExceptionResponse> ExceptionHandler(IncorresctPasseWord ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        ExceptionResponse.builder()
+                                .busynesErrorCode(BusinessErrorCode.INCORRECT_PASSWORD.getCode())
+                                .bussnessErrorDescription(BusinessErrorCode.INCORRECT_PASSWORD.getDescription())
+                                .error(ex.getMessage())
+                                .build()
+                );
+    }
 
     @ExceptionHandler(NoActiveAccountException.class)
     public ResponseEntity<ExceptionResponse> ExceptionHandler(NoActiveAccountException ex){
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(
+                        ExceptionResponse.builder()
+                                .busynesErrorCode(BusinessErrorCode.UNACTIVE_ACCOUNT.getCode())
+                                .bussnessErrorDescription(BusinessErrorCode.UNACTIVE_ACCOUNT.getDescription())
+                                .error(ex.getMessage())
+                                .build()
+                );
+    }
+    @ExceptionHandler(AccountStatusActiveException.class)
+    public ResponseEntity<ExceptionResponse> ExceptionHandler(AccountStatusActiveException ex){
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(
+                        ExceptionResponse.builder()
+                                .busynesErrorCode(BusinessErrorCode.UNACTIVE_ACCOUNT.getCode())
+                                .bussnessErrorDescription(BusinessErrorCode.UNACTIVE_ACCOUNT.getDescription())
+                                .error(ex.getMessage())
+                                .build()
+                );
+    }
+    @ExceptionHandler(AccountFidelityActiveException.class)
+    public ResponseEntity<ExceptionResponse> ExceptionHandler(AccountFidelityActiveException ex){
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(

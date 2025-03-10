@@ -5,6 +5,8 @@ import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
 import com.soutenence.publiciteApp.ResponseAndRequest.UserResponse;
 import com.soutenence.publiciteApp.ResponseAndRequest.adminFormRequest;
 import com.soutenence.publiciteApp.entity.User;
+import com.soutenence.publiciteApp.exceptionHandler.AccountFidelityActiveException;
+import com.soutenence.publiciteApp.exceptionHandler.AccountStatusActiveException;
 import com.soutenence.publiciteApp.repository.UserRepository;
 import com.soutenence.publiciteApp.validationObjet.RegistrationFormRequest;
 import jakarta.mail.MessagingException;
@@ -22,6 +24,9 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
+
+import static com.soutenence.publiciteApp.exceptionHandler.BusinessErrorCode.BLOCKED_ACCOUNT;
+
 @Slf4j
 @Service
 public class UserService {
@@ -214,7 +219,7 @@ public class UserService {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
         if (user.isFidelisation()){
-            throw new RuntimeException("Ce client est déjà fidélisé");
+            throw new AccountFidelityActiveException("Ce client est déjà fidélisé");
         }
         user.setFidelisation(true);
         this.userRepository.save(user);
@@ -223,8 +228,8 @@ public class UserService {
     public ResponseEntity<?> setDeFidelisation(Long userId){
         User user = this.userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
-        if (user.isFidelisation()){
-            throw new RuntimeException("Ce client est déjà défidélisé");
+        if (!user.isFidelisation()){
+            throw new AccountFidelityActiveException("Ce client est déjà défidélisé");
         }
         user.setFidelisation(false);
         this.userRepository.save(user);
@@ -235,7 +240,7 @@ public class UserService {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
         if (user.isAccountLocked()){
-            throw new RuntimeException("Ce client est déjà bloqué");
+            throw new AccountStatusActiveException("Ce client est déjà bloqué");
         }
         user.setAccountLocked(true);
         this.userRepository.save(user);
@@ -245,8 +250,8 @@ public class UserService {
     public ResponseEntity<?> deBlockUser(Long userId){
         User user = this.userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("L'utilisateur n'existe pas"));
-        if (user.isAccountLocked()){
-            throw new RuntimeException("Ce client est déjà débloqué");
+        if (!user.isAccountLocked()){
+            throw new AccountStatusActiveException("Ce client est déjà débloqué");
         }
         user.setAccountLocked(false);
         this.userRepository.save(user);

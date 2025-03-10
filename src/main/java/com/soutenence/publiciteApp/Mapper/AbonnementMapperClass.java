@@ -38,6 +38,8 @@ public class AbonnementMapperClass {
                 .nbrJrs( ChronoUnit.DAYS.between(abonnement.getDateDebut(),abonnement.getDateFin()))
                 .actif(abonnement.isActif())
                 .valid(abonnement.isValid())
+                .isAlreadyCheck(abonnement.getIsAlreadyCheck())
+                .userId(abonnement.getUser().getId())
                 .user(abonnement.getUser().getEmail())
                 .build();
     }

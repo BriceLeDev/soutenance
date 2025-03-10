@@ -1,6 +1,6 @@
 package com.soutenence.publiciteApp.payement.controler;
 
-import com.soutenence.publiciteApp.payement.entite.Facture;
+import com.soutenence.publiciteApp.ResponseAndRequest.FactureResponse;
 import com.soutenence.publiciteApp.payement.service.FactureService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,12 @@ public class FactureControler {
     }
 
     @GetMapping("/get-facture")
-    public Facture getFactureByTrans(@RequestParam("transId") String transId){
+    public FactureResponse getFactureByTrans(@RequestParam("transId") String transId){
         return this.factureService.getFactureByTrans(transId);
+    }
+
+    @GetMapping("/get-facture-by-abonnement")
+    public FactureResponse getFactureByAbonnementid(@RequestParam("abonnementId") long abonnementId){
+        return this.factureService.getFactureByAbonnementid(abonnementId);
     }
 }

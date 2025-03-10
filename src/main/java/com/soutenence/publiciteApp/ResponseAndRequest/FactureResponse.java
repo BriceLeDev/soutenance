@@ -1,14 +1,7 @@
-package com.soutenence.publiciteApp.payement.entite;
+package com.soutenence.publiciteApp.ResponseAndRequest;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.soutenence.publiciteApp.entity.Abonnement;
-import com.soutenence.publiciteApp.entity.BaseEntity;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
-import javax.lang.model.element.NestingKind;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -16,11 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-@Entity
-public class Facture {
-
-    @Id
-    @GeneratedValue
+public class FactureResponse {
     private int id;
     private String reference;
     private Double mtnTotal;
@@ -32,6 +21,4 @@ public class Facture {
     private LocalDate dateAbn;
     private String transaction;
     private long abonnementId;
-
-
 }

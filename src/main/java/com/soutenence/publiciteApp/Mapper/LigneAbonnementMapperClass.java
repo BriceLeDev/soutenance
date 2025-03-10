@@ -25,7 +25,6 @@ public class LigneAbonnementMapperClass {
                 .taille(ligneAbonnement.getPanneau().getTaille())
                 .type(ligneAbonnement.getPanneau().getTypePanneau().getLibelet())
                 .nbrFace(ligneAbonnement.getPanneau().getNbreFace())
-                .picture(FilesUtils.readFileFromLocation(ligneAbonnement.getTheImage().getNomImage()))
                 .build();
     }
 }

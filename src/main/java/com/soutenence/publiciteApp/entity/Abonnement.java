@@ -31,6 +31,8 @@ public class Abonnement extends BaseEntity {
     private LocalDate dateAbn;
     private boolean actif;
     private String description;
+    @Column(nullable = true)
+    private Boolean isAlreadyCheck;
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
     private NiveauPayement niveauAbn;

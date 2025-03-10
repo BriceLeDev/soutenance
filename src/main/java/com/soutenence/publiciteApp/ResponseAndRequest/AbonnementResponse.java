@@ -25,5 +25,7 @@ public class AbonnementResponse {
     private boolean valid;
     private String description;
     private String user;
+    private long userId;
+    private boolean isAlreadyCheck;
     private List<byte[]> picture;
 }

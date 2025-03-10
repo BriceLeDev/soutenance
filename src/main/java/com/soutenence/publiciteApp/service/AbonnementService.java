@@ -58,6 +58,9 @@ public class AbonnementService {
 
          abonnement.setUser(user);
          abonnement.setValid(false);
+         //definir l abonnement comme n étant pas encore vérifié 
+         abonnement.setIsAlreadyCheck(false);
+         abonnement.setActif(false);
          abonnementRepositorie.save(abonnement);
 
         List<Long> lesPanneaux = abonnementRequest.Panneau();
@@ -89,7 +92,7 @@ public class AbonnementService {
     }
 
     public PageResponse<AbonnementResponse> getAllAbonnement(int page, int size) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC,"createdAt"));
         Page<Abonnement> pageAbonnement = abonnementRepositorie.findAll(pageable);
         List<AbonnementResponse> abonnementResponseList = pageAbonnement.stream()
                 .map(abonnementMapperClass::ToAbonnementResponse)
@@ -383,10 +386,11 @@ public class AbonnementService {
         Abonnement abonnement = this.abonnementRepositorie.findById(abonnementId)
                 .orElseThrow(()-> new EntityNotFoundException("Elément non trouvé"));
         abonnement.setValid(true);
+        abonnement.setIsAlreadyCheck(true);
         this.abonnementRepositorie.save(abonnement);
-
         Message message = new Message();
         message.setType(TypeMessage.CONFIRMATION);
+        message.setAbonnement(abonnement);
         message.setReceiver(abonnement.getUser());
         message.setLocalDateTime(LocalDateTime.now());
         String text  = " Votre abonnement est validé après vérification. Il debutera le : " +abonnement.getDateDebut();
@@ -397,7 +401,8 @@ public class AbonnementService {
     public void invalidateAbonnement(Long abonnementId) {
         Abonnement abonnement = this.abonnementRepositorie.findById(abonnementId)
                 .orElseThrow(()-> new EntityNotFoundException("Elément non trouvé"));
-        abonnement.setValid(true);
+        abonnement.setValid(false);
+        abonnement.setIsAlreadyCheck(true);
         this.abonnementRepositorie.save(abonnement);
 
         log.info("Message creating");
@@ -406,7 +411,7 @@ public class AbonnementService {
         message.setAbonnement(abonnement);
         message.setReceiver(abonnement.getUser());
         message.setLocalDateTime(LocalDateTime.now());
-        String text  = "Votre abonnement n'est pas conforme à notre CGU \n veuillez  le consulter ou veuillez nous contacctez sur +228 99898195";
+        String text  = "Votre abonnement n'est pas conforme. \n Veuillez  le consulter ou veuillez nous contacctez sur +228 99898195";
         message.setMessage(text);
         this.messageRepositorie.save(message);
 

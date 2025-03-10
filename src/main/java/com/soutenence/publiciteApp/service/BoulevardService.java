@@ -6,6 +6,7 @@ import com.soutenence.publiciteApp.ResponseAndRequest.PageResponse;
 import com.soutenence.publiciteApp.entity.Boulevard;
 import com.soutenence.publiciteApp.entity.Panneau;
 import com.soutenence.publiciteApp.entity.User;
+import com.soutenence.publiciteApp.exceptionHandler.UserAlreadyExists;
 import com.soutenence.publiciteApp.repository.BoulevardRepositorie;
 import com.soutenence.publiciteApp.repository.PanneauRepositorie;
 import com.soutenence.publiciteApp.validationObjet.BoulevarRequest;
@@ -39,7 +40,7 @@ public class BoulevardService {
         User user = (User) connectedUser.getPrincipal();
         Boulevard Existboulevard = boulevardRepositorie.findByName(request.name()) ;
 if (Existboulevard!=null){
-    throw new RuntimeException("Ce boulevard existe déjà");
+    throw new UserAlreadyExists("Ce boulevard existe déjà");
 }
 
         Boulevard  boulevard = boulevardMapperClass.ToBoulevard(request);
