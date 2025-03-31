@@ -1,4 +1,7 @@
 HELP.md
+
+.env
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -35,5 +38,4 @@ build/
 .vscode/
 
 
-### Environment variables to ignore
-.env
+
