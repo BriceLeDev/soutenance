@@ -1,6 +1,7 @@
+#app config
 server:
   servlet:
-    context-path: /api/v1/
+    context-path: /api/v2/
   port: 8088
 spring:
   profiles:
