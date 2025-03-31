@@ -48,6 +48,12 @@ public class AbonnementService {
         this.messageRepositorie = messageRepositorie;
     }
 
+    /**
+     *
+     * @param abonnementRequest
+     * @param authentication
+     * @return
+     */
     public Long saveAbonnement(AbonnementRequest abonnementRequest, Authentication authentication) {
         User user = ((User)authentication.getPrincipal());
 
@@ -62,7 +68,6 @@ public class AbonnementService {
          abonnement.setIsAlreadyCheck(false);
          abonnement.setActif(false);
          abonnementRepositorie.save(abonnement);
-
         List<Long> lesPanneaux = abonnementRequest.Panneau();
         for (Long panneau : lesPanneaux ){
             Panneau myPann =panneauRepositorie.findById(panneau).orElseThrow(()-> new EntityNotFoundException("Ce panneau n existe pas"));
@@ -77,12 +82,9 @@ public class AbonnementService {
             }
             panneauRepositorie.save(myPann);
             ligneAbonnementRepositorie.save(ligneAbonnement);
-
         }
-
         return abonnement.getId();
     }
-
     public AbonnementResponse getAbonnementById(Long abonnementId) {
 
         return abonnementRepositorie.findById(abonnementId)

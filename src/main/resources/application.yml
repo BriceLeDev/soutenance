@@ -1,14 +1,15 @@
+#app config
 server:
   servlet:
-    context-path: /api/v1/
+    context-path: /api/v2/
   port: 8088
 spring:
   profiles:
     active: default
   datasource:
-    url: jdbc:mysql://localhost:3306/panneau_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: root
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: publiciteApp
@@ -45,8 +46,8 @@ springdoc:
 application:
   security:
     jwt:
-      secret-key: 23563deebf828c77de9bd80d0357671bfd66065b42963ee7137f50cdabdf1235
-      expiration: 86480000
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: ${JWT_SECRET_KEY_EXPIRATION}
   mailing:
     frontend:
       activation-url: http://localhost:4200/activate-account
@@ -55,7 +56,7 @@ application:
       picture-output-path: ./upload
 app:
   integrator:
-    siteIid: 734813
-    apiKey: 167092646965f9bbfa807873.13817346
-    paymentUrl: https://api-checkout.cinetpay.com/v2/payment
+    siteIid: ${INTEGRATOR_API_SITE_ID}
+    apiKey: ${INTEGRATOR_API_KEY}
+    paymentUrl: ${INTEGRATOR_API_PAYMENT_URL}
     ngrockUrl: https://0447-2c0f-f0f8-6bf-f700-3d47-529b-ae0a-f0eb.ngrok-free.app
