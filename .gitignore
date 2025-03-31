@@ -5,8 +5,6 @@ target/
 !**/src/test/**/target/
 
 
-### Environment variables to ignor ###
-.env
 
 ### STS ###
 .apt_generated
@@ -36,3 +34,6 @@ build/
 ### VS Code ###
 .vscode/
 
+
+### Environment variables to ignore
+.env
